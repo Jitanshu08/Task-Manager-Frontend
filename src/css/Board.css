@@ -3,31 +3,147 @@
   padding: 20px;
 }
 
-/* Kanban board layout */
+/* Kanban board columns */
 .kanban-board {
   display: flex;
-  justify-content: space-between;
   gap: 20px;
 }
 
-/* Columns for tasks */
-.column {
+.board-column {
   flex: 1;
-  background-color: #f4f4f4;
+  background: rgba(238, 242, 245, 1);
   padding: 10px;
   border-radius: 8px;
-  min-height: 400px;
+}
+
+/* Column header styling */
+.column-header {
   display: flex;
-  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.column-header h2 {
+  font-size: 8px;
+  text-align: left;
+}
+
+/* Create task button */
+.create-task-btn {
+  background-color: #28a745;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.create-task-btn:hover {
+  background-color: #218838;
+}
+
+/* Task card styling */
+.task-card {
+  background-color: white;
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.task-header {
+  display: flex;
+  justify-content: space-between;
   align-items: center;
 }
 
-/* Task cards */
-.task-card {
-  background-color: #fff;
-  padding: 15px;
-  margin-bottom: 10px;
-  border-radius: 8px;
+.priority {
+  font-weight: bold;
+  text-transform: capitalize;
+}
+
+.priority.low {
+  color: green;
+}
+
+.priority.medium {
+  color: orange;
+}
+
+.priority.high {
+  color: red;
+}
+
+.task-options {
+  position: relative;
+}
+
+.task-options button {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.dropdown-menu {
+  position: absolute;
+  right: 0;
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 5px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.dropdown-menu button {
+  background: none;
+  border: none;
+  padding: 10px;
   width: 100%;
+  cursor: pointer;
+}
+
+.dropdown-menu button:hover {
+  background-color: #f0f0f0;
+}
+
+.checklist-container {
+  margin-top: 10px;
+}
+
+.checklist-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.checklist {
+  list-style: none;
+  padding-left: 0;
+  margin-top: 5px;
+}
+
+.checklist li {
+  margin-bottom: 5px;
+}
+
+.checklist li input[type="checkbox"] {
+  margin-right: 5px;
+}
+
+.task-actions {
+  margin-top: 10px;
+}
+
+.task-actions button {
+  margin-right: 5px;
+  padding: 5px 10px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.task-actions button:hover {
+  background-color: #0056b3;
 }
