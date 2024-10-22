@@ -1,0 +1,40 @@
+/* Container for the analytics page */
+.analytics-container {
+    padding: 20px;
+  }
+  
+  /* Layout for two columns (boxes) */
+  .analytics-columns {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+  }
+  
+  /* Each analytics box */
+  .analytics-box {
+    flex: 1;
+    background-color: #f4f4f4;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* List of items inside each box */
+  .analytics-box ul {
+    list-style-type: disc;
+    padding-left: 20px;
+    margin: 0;  /* No gap between rows */
+  }
+  
+  /* Each list item */
+  .analytics-box li {
+    font-size: 16px;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;  /* Align text and number to opposite sides */
+  }
+  
+  .analytics-box li span {
+    font-weight: bold;  /* Bold the numbers */
+  }
+  
