@@ -3,6 +3,133 @@
   padding: 20px;
 }
 
+/* Greeting and Date */
+.board-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.board-header h1 {
+  font-size: 18px;
+}
+
+.board-header span {
+  font-size: 14px;
+  color: gray;
+}
+
+/* Board title and actions */
+.board-title-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.title-and-actions {
+  display: flex;
+  align-items: center;
+}
+
+.board-title-row h2 {
+  font-size: 24px;
+  margin-right: 10px;
+}
+
+.board-actions {
+  display: flex;
+  align-items: center;
+}
+
+.add-people-icon {
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+  margin-right: 8px;
+}
+
+.filter-dropdown {
+  position: relative;
+}
+
+.filter-toggle-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.filter-options {
+  position: absolute;
+  top: 30px;
+  right: 0;
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.filter-options button {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  background: none;
+  border: none;
+  text-align: left;
+  cursor: pointer;
+}
+
+.filter-options button:hover {
+  background-color: #f0f0f0;
+}
+
+/* Popup styling */
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.popup-content {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  width: 300px;
+  text-align: center;
+}
+
+.popup-content input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.popup-actions {
+  display: flex;
+  justify-content: space-between;
+}
+
+.popup-actions button {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.popup-actions button:hover {
+  background-color: #0056b3;
+}
+
 /* Kanban board columns */
 .kanban-board {
   display: flex;
@@ -27,20 +154,28 @@
 .column-header h2 {
   font-size: 8px;
   text-align: left;
+  margin-right: auto;
 }
 
 /* Create task button */
 .create-task-btn {
-  background-color: #28a745;
-  color: white;
+  background: none;
+  color: #000;
+  font-size: 20px;
   border: none;
-  padding: 5px 10px;
-  border-radius: 50%;
   cursor: pointer;
+  margin-right: 20px;
+  align-self: flex-end; 
 }
 
 .create-task-btn:hover {
-  background-color: #218838;
+  color: #555; 
+}
+
+.collapse-icon {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
 }
 
 /* Task card styling */
