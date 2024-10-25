@@ -4,10 +4,10 @@ import API from "../services/api";
 import { toast } from "react-toastify";
 import BackImg from "../assets/Back.png";
 import GroupImg from "../assets/Group.png";
-import NameIcon from "../assets/Name.png";
+import NameIcon from "../assets/name.png";
 import EmailIcon from "../assets/Email.png";
-import LockIcon from "../assets/Lock.png";
-import EyeIcon from "../assets/Eye.png";
+import LockIcon from "../assets/lock.png";
+import EyeIcon from "../assets/eye.png";
 import "../css/Register.css";
 
 const Register = () => {
@@ -53,7 +53,11 @@ const Register = () => {
         <form onSubmit={handleRegister}>
           <h2 className="register-title">Register</h2>
           <div className="register-input-wrapper">
-            <img src={NameIcon} alt="Name Icon" className="register-input-icon" />
+            <img
+              src={NameIcon}
+              alt="Name Icon"
+              className="register-input-icon"
+            />
             <input
               type="text"
               placeholder="Name"
@@ -63,7 +67,11 @@ const Register = () => {
             />
           </div>
           <div className="register-input-wrapper">
-            <img src={EmailIcon} alt="Email Icon" className="register-input-icon" />
+            <img
+              src={EmailIcon}
+              alt="Email Icon"
+              className="register-input-icon"
+            />
             <input
               type="email"
               placeholder="Email"
@@ -73,7 +81,11 @@ const Register = () => {
             />
           </div>
           <div className="register-input-wrapper">
-            <img src={LockIcon} alt="Lock Icon" className="register-input-icon" />
+            <img
+              src={LockIcon}
+              alt="Lock Icon"
+              className="register-input-icon"
+            />
             <input
               type={showPassword ? "text" : "password"}
               placeholder="Password"
@@ -89,7 +101,11 @@ const Register = () => {
             />
           </div>
           <div className="register-input-wrapper">
-            <img src={LockIcon} alt="Lock Icon" className="register-input-icon" />
+            <img
+              src={LockIcon}
+              alt="Lock Icon"
+              className="register-input-icon"
+            />
             <input
               type={showConfirmPassword ? "text" : "password"}
               placeholder="Confirm Password"
@@ -104,7 +120,9 @@ const Register = () => {
               onClick={() => setShowConfirmPassword(!showConfirmPassword)}
             />
           </div>
-          <button type="submit" className="register-submit-btn">Register</button>
+          <button type="submit" className="register-submit-btn">
+            Register
+          </button>
         </form>
         <p className="register-note">Have an account?</p>
         <button
