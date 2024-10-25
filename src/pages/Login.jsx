@@ -46,7 +46,11 @@ const Login = ({ setIsLoggedIn }) => {
         <form onSubmit={handleLogin}>
           <h2 className="login-title">Login</h2>
           <div className="login-input-wrapper">
-            <img src={EmailIcon} alt="Email Icon" className="login-input-icon" />
+            <img
+              src={EmailIcon}
+              alt="Email Icon"
+              className="login-input-icon"
+            />
             <input
               type="email"
               placeholder="Email"
@@ -71,7 +75,9 @@ const Login = ({ setIsLoggedIn }) => {
               onClick={() => setShowPassword(!showPassword)}
             />
           </div>
-          <button type="submit" className="login-submit-btn">Log in</button>
+          <button type="submit" className="login-submit-btn">
+            Log in
+          </button>
         </form>
         <p className="login-note">Have no account yet?</p>
         <button
