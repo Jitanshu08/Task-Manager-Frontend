@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 import BackImg from "../assets/Back.png";
 import GroupImg from "../assets/Group.png";
 import EmailIcon from "../assets/Email.png";
-import LockIcon from "../assets/Lock.png";
+import LockIcon from "../assets/lock.png";
 import EyeIcon from "../assets/Eye.png";
 import "../css/Login.css";
 
