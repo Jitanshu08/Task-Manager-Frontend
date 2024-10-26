@@ -50,7 +50,7 @@ const Register = () => {
         </div>
       </div>
       <div className="register-right-section">
-        <form onSubmit={handleRegister}>
+        <form onSubmit={handleRegister} className="register-form">
           <h2 className="register-title">Register</h2>
           <div className="register-input-wrapper">
             <img
@@ -62,6 +62,7 @@ const Register = () => {
               type="text"
               placeholder="Name"
               value={name}
+              className="register-input"
               onChange={(e) => setName(e.target.value)}
               required
             />
@@ -76,6 +77,7 @@ const Register = () => {
               type="email"
               placeholder="Email"
               value={email}
+              className="register-input"
               onChange={(e) => setEmail(e.target.value)}
               required
             />
@@ -90,6 +92,7 @@ const Register = () => {
               type={showPassword ? "text" : "password"}
               placeholder="Password"
               value={password}
+              className="register-input"
               onChange={(e) => setPassword(e.target.value)}
               required
             />
@@ -110,6 +113,7 @@ const Register = () => {
               type={showConfirmPassword ? "text" : "password"}
               placeholder="Confirm Password"
               value={confirmPassword}
+              className="register-input"
               onChange={(e) => setConfirmPassword(e.target.value)}
               required
             />

@@ -37,7 +37,7 @@
 }
 
 .login-greeting h2 {
-  margin-top: 400px; 
+  margin-top: 400px;
   font-size: 1.8rem;
   font-weight: bold;
 }
@@ -64,7 +64,7 @@
 }
 
 /* Form Styling */
-form {
+.login-form {
   display: flex;
   flex-direction: column;
   width: 80%;
@@ -93,7 +93,7 @@ form {
   cursor: pointer;
 }
 
-input {
+.login-input {
   padding: 0.8rem 0.8rem 0.8rem 40px;
   width: 100%;
   border: 1px solid #ccc;
@@ -108,6 +108,7 @@ input {
   border-radius: 55.13px;
   cursor: pointer;
   margin-bottom: 1rem;
+  width: 100%;
 }
 
 .login-note {
@@ -117,7 +118,7 @@ input {
 
 .login-switch-btn {
   padding: 0.8rem;
-  width: 354px;
+  width: 69%;
   background: none;
   color: rgba(23, 162, 184, 1);
   border: 1px solid rgba(23, 162, 184, 1);

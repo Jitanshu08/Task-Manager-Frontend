@@ -2,6 +2,9 @@ import React, { useState, useEffect } from "react";
 import API from "../services/api";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faChevronUp } from "@fortawesome/free-solid-svg-icons";
+import CreateTaskPopup from '../components/CreateTaskPopup';
 import collapseIcon from "../assets/collapse1.png";
 import peopleIcon from "../assets/people.png";
 import "../css/Board.css";
@@ -14,11 +17,22 @@ const Board = () => {
   const [filter, setFilter] = useState("Today");
   const [userName, setUserName] = useState("");
   const [filterDropdownOpen, setFilterDropdownOpen] = useState(false);
+  const [isCreateTaskOpen, setCreateTaskOpen] = useState(false);
   const todayDate = new Date().toLocaleDateString("en-US", {
     month: "short",
     day: "numeric",
     year: "numeric",
   });
+
+   // Save Task Function
+   const saveTask = (newTaskData) => {
+    const newTask = {
+      ...newTaskData,
+      status: 'to-do',
+      isChecklistOpen: false,
+    };
+    setTasks([...tasks, newTask]);
+  };
 
   // Fetch logged-in user details
   useEffect(() => {
@@ -208,7 +222,19 @@ const Board = () => {
             className="filter-toggle-btn"
             onClick={() => setFilterDropdownOpen(!filterDropdownOpen)}
           >
-            {filter} ▼
+            {filter}{" "}
+            {filterDropdownOpen ? (
+              <FontAwesomeIcon
+                icon={faChevronUp}
+                style={{ color: "#878787" }}
+              />
+            ) : (
+              <FontAwesomeIcon
+                icon={faChevronUp}
+                rotation={180}
+                style={{ color: "#878787" }}
+              />
+            )}
           </button>
           {filterDropdownOpen && (
             <div className="filter-options">
@@ -225,36 +251,39 @@ const Board = () => {
       </div>
 
       {/* Kanban Board */}
-      <div className="kanban-board">
-        <Column
-          title="Backlog"
-          tasks={tasksByStatus.backlog}
-          updateTaskStatus={updateTaskStatus}
-          setTasks={setTasks}
-          collapseAll={() => collapseAllTasks(tasksByStatus.backlog)}
-        />
-        <Column
-          title="To-Do"
-          tasks={tasksByStatus.todo}
-          updateTaskStatus={updateTaskStatus}
-          setTasks={setTasks}
-          showCreateTaskButton
-          collapseAll={() => collapseAllTasks(tasksByStatus.todo)}
-        />
-        <Column
-          title="In-Progress"
-          tasks={tasksByStatus.inProgress}
-          updateTaskStatus={updateTaskStatus}
-          setTasks={setTasks}
-          collapseAll={() => collapseAllTasks(tasksByStatus.inProgress)}
-        />
-        <Column
-          title="Done"
-          tasks={tasksByStatus.done}
-          updateTaskStatus={updateTaskStatus}
-          setTasks={setTasks}
-          collapseAll={() => collapseAllTasks(tasksByStatus.done)}
-        />
+      <div className="kanban-window">
+        <div className="kanban-board">
+          <Column
+            title="Backlog"
+            tasks={tasksByStatus.backlog}
+            updateTaskStatus={updateTaskStatus}
+            setTasks={setTasks}
+            collapseAll={() => collapseAllTasks(tasksByStatus.backlog)}
+          />
+          <Column
+            title="To-Do"
+            tasks={tasksByStatus.todo}
+            updateTaskStatus={updateTaskStatus}
+            setTasks={setTasks}
+            showCreateTaskButton
+            setCreateTaskOpen={setCreateTaskOpen}
+            collapseAll={() => collapseAllTasks(tasksByStatus.todo)}
+          />
+          <Column
+            title="In-Progress"
+            tasks={tasksByStatus.inProgress}
+            updateTaskStatus={updateTaskStatus}
+            setTasks={setTasks}
+            collapseAll={() => collapseAllTasks(tasksByStatus.inProgress)}
+          />
+          <Column
+            title="Done"
+            tasks={tasksByStatus.done}
+            updateTaskStatus={updateTaskStatus}
+            setTasks={setTasks}
+            collapseAll={() => collapseAllTasks(tasksByStatus.done)}
+          />
+        </div>
       </div>
 
       {/* Add People Popup */}
@@ -285,6 +314,12 @@ const Board = () => {
           </div>
         </div>
       )}
+      {/* Create Task Popup */}
+      <CreateTaskPopup
+        isOpen={isCreateTaskOpen}
+        onClose={() => setCreateTaskOpen(false)}
+        onSave={saveTask}
+      />
     </div>
   );
 };
@@ -296,6 +331,7 @@ const Column = ({
   updateTaskStatus,
   setTasks,
   showCreateTaskButton,
+  setCreateTaskOpen, // Add this prop
   collapseAll,
 }) => {
   return (
@@ -304,27 +340,39 @@ const Column = ({
         <h2 className="column-title">{title}</h2>
         <div className="column-actions">
           {showCreateTaskButton && (
-            <button className="create-task-btn">+</button>
+            <button
+              className="create-task-btn"
+              onClick={() => setCreateTaskOpen(true)} 
+            >
+              +
+            </button>
           )}
-          <img
-            src={collapseIcon}
-            alt="Collapse"
-            className="collapse-icon"
-            onClick={collapseAll}
-          />
+          <button className="collapse-icon" onClick={collapseAll}>
+            <img
+              src={collapseIcon}
+              alt="Collapse"
+              className="collapse-icon"
+              onClick={collapseAll}
+            />
+          </button>
         </div>
       </div>
-      {tasks.map((task) => (
-        <TaskCard
-          key={task._id}
-          task={task}
-          updateTaskStatus={updateTaskStatus}
-          setTasks={setTasks}
-        />
-      ))}
+      <div className="task-list-wrapper">
+        <div className="task-list">
+          {tasks.map((task) => (
+            <TaskCard
+              key={task._id}
+              task={task}
+              updateTaskStatus={updateTaskStatus}
+              setTasks={setTasks}
+            />
+          ))}
+        </div>
+      </div>
     </div>
   );
 };
+
 
 // TaskCard Component
 const TaskCard = ({ task, updateTaskStatus, setTasks }) => {
@@ -367,6 +415,33 @@ const TaskCard = ({ task, updateTaskStatus, setTasks }) => {
       position: "top-right",
       autoClose: 3000,
     });
+  };
+
+  // Determine the assignee initials
+  const getAssigneeInitials = (email) => {
+    if (!email) return null;
+    const parts = email.split("@")[0];
+    const initials = parts
+      .split(".")
+      .map((part) => part.charAt(0))
+      .join("")
+      .toUpperCase()
+      .slice(0, 2);
+    return initials;
+  };
+
+  // Format the priority text
+  const formatPriorityText = (priority) => {
+    switch (priority) {
+      case "high":
+        return "HIGH PRIORITY";
+      case "medium":
+        return "MODERATE PRIORITY";
+      case "low":
+        return "LOW PRIORITY";
+      default:
+        return priority;
+    }
   };
 
   // Get status change buttons based on current status
@@ -436,7 +511,17 @@ const TaskCard = ({ task, updateTaskStatus, setTasks }) => {
   return (
     <div className="task-card">
       <div className="task-header">
-        <span className={`priority ${task.priority}`}>{task.priority}</span>
+        <div className="priority-wrapper">
+          {/* Display a colored bullet based on priority */}
+          <span className={`priority-bullet ${task.priority}`}></span>
+          <span className="priority-text">{formatPriorityText(task.priority)}</span>
+          {/* Render the assignee's initials if there's an assignee */}
+          {task.assignee && (
+            <span className="assignee-circle">
+              {getAssigneeInitials(task.assignee)}
+            </span>
+          )}
+        </div>
         <div className="task-options">
           <button onClick={() => setShowOptions(!showOptions)}>...</button>
           {showOptions && (
@@ -464,7 +549,18 @@ const TaskCard = ({ task, updateTaskStatus, setTasks }) => {
               )
             }
           >
-            {task.isChecklistOpen ? "▲" : "▼"}
+            {task.isChecklistOpen ? (
+              <FontAwesomeIcon
+                icon={faChevronUp}
+                style={{ color: "#878787", padding: "2px" }}
+              />
+            ) : (
+              <FontAwesomeIcon
+                icon={faChevronUp}
+                rotation={180}
+                style={{ color: "#878787", padding: "2px" }}
+              />
+            )}
           </button>
         </div>
 
@@ -484,15 +580,15 @@ const TaskCard = ({ task, updateTaskStatus, setTasks }) => {
         )}
       </div>
 
-      {/* Display the due date if exists */}
-      <p>
-        {task.dueDate
-          ? new Date(task.dueDate).toLocaleString("en-US", {
-              month: "short",
-              day: "numeric",
-            })
-          : ""}
-      </p>
+      {/* Conditionally render the due date only if it exists */}
+      {task.dueDate && (
+        <p className="task-due-date">
+          {new Date(task.dueDate).toLocaleString("en-US", {
+            month: "short",
+            day: "numeric",
+          })}
+        </p>
+      )}
 
       <div className="task-actions">
         {getStatusButtons(task, updateTaskStatus)}{" "}

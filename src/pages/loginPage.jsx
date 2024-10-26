@@ -43,7 +43,7 @@ const Login = ({ setIsLoggedIn }) => {
         </div>
       </div>
       <div className="login-right-section">
-        <form onSubmit={handleLogin}>
+        <form onSubmit={handleLogin} className="login-form">
           <h2 className="login-title">Login</h2>
           <div className="login-input-wrapper">
             <img
@@ -55,6 +55,7 @@ const Login = ({ setIsLoggedIn }) => {
               type="email"
               placeholder="Email"
               value={email}
+              className="login-input"
               onChange={(e) => setEmail(e.target.value)}
               required
             />
@@ -65,6 +66,7 @@ const Login = ({ setIsLoggedIn }) => {
               type={showPassword ? "text" : "password"}
               placeholder="Password"
               value={password}
+              className="login-input"
               onChange={(e) => setPassword(e.target.value)}
               required
             />

@@ -130,17 +130,70 @@
   background-color: #0056b3;
 }
 
+/* Kanban window styling */
+.kanban-window {
+  display: flex;
+  overflow-x: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(141, 170, 185, 0.8) rgba(214, 234, 244, 1);
+}
+
 /* Kanban board columns */
 .kanban-board {
   display: flex;
   gap: 20px;
 }
 
+/* Column styling */
 .board-column {
   flex: 1;
   background: rgba(238, 242, 245, 1);
   padding: 10px;
   border-radius: 8px;
+  height: 540px;
+  width: 350px;
+  overflow: hidden;
+}
+
+/* New scrollable task list wrapper */
+.task-list-wrapper {
+  height: calc(540px - 40px);
+  overflow-y: auto;
+  padding-right: 5px;
+}
+
+/* Adjusted scrollbar styling for Kanban window */
+.kanban-window::-webkit-scrollbar {
+  height: 10px;
+  border-radius: 10px;
+}
+
+.kanban-window::-webkit-scrollbar-thumb {
+  background-color: rgba(141, 170, 185, 0.8);
+  border-radius: 10px;
+  min-height: 30px;
+}
+
+.kanban-window::-webkit-scrollbar-track {
+  background: rgba(214, 234, 244, 1);
+  border-radius: 10px;
+}
+
+/* Adjusted scrollbar styling for task list wrapper */
+.task-list-wrapper::-webkit-scrollbar {
+  width: 8px;
+  border-radius: 10px;
+}
+
+.task-list-wrapper::-webkit-scrollbar-thumb {
+  background-color: rgba(141, 170, 185, 0.8);
+  border-radius: 10px;
+  min-height: 30px;
+}
+
+.task-list-wrapper::-webkit-scrollbar-track {
+  background: rgba(214, 234, 244, 1);
+  border-radius: 10px;
 }
 
 /* Column header styling */
@@ -165,17 +218,18 @@
   border: none;
   cursor: pointer;
   margin-right: 20px;
-  align-self: flex-end; 
+  align-self: flex-end;
 }
 
 .create-task-btn:hover {
-  color: #555; 
+  color: #555;
 }
 
 .collapse-icon {
   width: 18px;
   height: 18px;
   cursor: pointer;
+  border: none;
 }
 
 /* Task card styling */
@@ -185,6 +239,10 @@
   border-radius: 5px;
   margin-bottom: 10px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  position: relative; /* To position due date at bottom */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .task-header {
@@ -227,6 +285,7 @@
   border: 1px solid #ccc;
   border-radius: 5px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  z-index: 1;
 }
 
 .dropdown-menu button {
@@ -243,6 +302,7 @@
 
 .checklist-container {
   margin-top: 10px;
+  margin-bottom: 38px;
 }
 
 .checklist-header {
@@ -251,6 +311,7 @@
   align-items: center;
 }
 
+/* Checklist styling */
 .checklist {
   list-style: none;
   padding-left: 0;
@@ -258,27 +319,105 @@
 }
 
 .checklist li {
+  display: flex; /* Use flexbox to align items */
+  align-items: center; /* Vertically align checkbox and text */
+  padding: 5px;
+  border: 1px solid rgba(226, 226, 226, 1);
+  border-radius: 3px;
   margin-bottom: 5px;
 }
 
 .checklist li input[type="checkbox"] {
-  margin-right: 5px;
+  margin: 0 8px 0 0;
+  padding: 2px;
+  width: min-content;
+  align-self: center;
 }
 
+/* Task actions section */
 .task-actions {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
   margin-top: 10px;
+  padding-top: 10px;
 }
 
 .task-actions button {
-  margin-right: 5px;
   padding: 5px 10px;
-  background-color: #007bff;
-  color: white;
+  background-color: rgba(238, 236, 236, 1);
+  color: rgba(118, 117, 117, 1);
   border: none;
   border-radius: 3px;
   cursor: pointer;
+  margin-right: 5px;
+  font-size: 8px;
 }
 
 .task-actions button:hover {
-  background-color: #0056b3;
+  background-color: rgba(218, 216, 216, 1);
+}
+
+/* Due date styling */
+.task-due-date {
+  font-size: 8px;
+  color: white;
+  background: rgba(207, 54, 54, 1);
+  padding: 3px 5px;
+  border-radius: 3px;
+  display: inline-block;
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+}
+
+/* Priority styles */
+.priority-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.priority-text {
+  font-size: 8px;
+  color: rgba(112, 112, 112, 1);
+  margin-right: 8px;
+}
+
+/* Colored bullet based on priority */
+.priority-bullet {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.priority-bullet.high {
+  background-color: rgba(255, 36, 115, 1);
+}
+
+.priority-bullet.medium {
+  background-color: rgba(24, 176, 255, 1);
+}
+
+.priority-bullet.low {
+  background-color: rgba(99, 192, 91, 1);
+}
+
+/* Assignee icon styling */
+.assignee-circle {
+  background: rgba(255, 235, 235, 1);
+  color: rgba(112, 112, 112, 1);
+  border-radius: 50%;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 8px;
+  width: 18px;
+  height: 18px;
+  margin-left: 5px;
+  text-transform: uppercase;
 }
