@@ -5,6 +5,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronUp } from "@fortawesome/free-solid-svg-icons";
 import CreateTaskPopup from '../components/CreateTaskPopup';
+import EditTaskPopup from '../components/EditTaskPopup';
 import collapseIcon from "../assets/collapse1.png";
 import peopleIcon from "../assets/people.png";
 import "../css/Board.css";
@@ -18,6 +19,8 @@ const Board = () => {
   const [userName, setUserName] = useState("");
   const [filterDropdownOpen, setFilterDropdownOpen] = useState(false);
   const [isCreateTaskOpen, setCreateTaskOpen] = useState(false);
+  const [isEditTaskOpen, setEditTaskOpen] = useState(false); // State for Edit Task popup
+  const [taskToEdit, setTaskToEdit] = useState(null); // State to store the task being edited
   const todayDate = new Date().toLocaleDateString("en-US", {
     month: "short",
     day: "numeric",
@@ -32,6 +35,32 @@ const Board = () => {
       isChecklistOpen: false,
     };
     setTasks([...tasks, newTask]);
+  };
+
+  // Edit Task Function
+  const editTask = async (editedTaskData) => {
+    try {
+      await API.put(`/api/tasks/${editedTaskData._id}`, editedTaskData);
+      setTasks(
+        tasks.map((task) =>
+          task._id === editedTaskData._id ? { ...editedTaskData } : task
+        )
+      );
+      toast.success("Task updated successfully!");
+    } catch (error) {
+      console.error("Error editing task:", error);
+      toast.error("Failed to update the task.");
+    }
+    setEditTaskOpen(false);
+    setTaskToEdit(null);
+  };
+
+  // Function to open Edit Task Popup
+  const handleEditTask = (task) => {
+    console.log("Edit task clicked:", task); // Debugging line
+    setTaskToEdit(task);
+    setEditTaskOpen(true);
+    console.log("isEditTaskOpen set to true, taskToEdit set:", task);
   };
 
   // Fetch logged-in user details
@@ -259,6 +288,7 @@ const Board = () => {
             updateTaskStatus={updateTaskStatus}
             setTasks={setTasks}
             collapseAll={() => collapseAllTasks(tasksByStatus.backlog)}
+            handleEditTask={handleEditTask}
           />
           <Column
             title="To-Do"
@@ -268,6 +298,7 @@ const Board = () => {
             showCreateTaskButton
             setCreateTaskOpen={setCreateTaskOpen}
             collapseAll={() => collapseAllTasks(tasksByStatus.todo)}
+            handleEditTask={handleEditTask}
           />
           <Column
             title="In-Progress"
@@ -275,6 +306,7 @@ const Board = () => {
             updateTaskStatus={updateTaskStatus}
             setTasks={setTasks}
             collapseAll={() => collapseAllTasks(tasksByStatus.inProgress)}
+            handleEditTask={handleEditTask}
           />
           <Column
             title="Done"
@@ -282,9 +314,24 @@ const Board = () => {
             updateTaskStatus={updateTaskStatus}
             setTasks={setTasks}
             collapseAll={() => collapseAllTasks(tasksByStatus.done)}
+            handleEditTask={handleEditTask}
           />
         </div>
       </div>
+
+      {/* Edit Task Popup */}
+      {isEditTaskOpen && (
+  <div>
+    {console.log("Rendering EditTaskPopup:", isEditTaskOpen, taskToEdit)}
+    <EditTaskPopup
+    isOpen={isEditTaskOpen}
+      task={taskToEdit}
+      onClose={() => setEditTaskOpen(false)}
+      saveEdit={editTask}
+    />
+  </div>
+)}
+
 
       {/* Add People Popup */}
       {isAddPeoplePopupOpen && (
@@ -331,7 +378,8 @@ const Column = ({
   updateTaskStatus,
   setTasks,
   showCreateTaskButton,
-  setCreateTaskOpen, // Add this prop
+  setCreateTaskOpen, 
+  handleEditTask,
   collapseAll,
 }) => {
   return (
@@ -365,6 +413,7 @@ const Column = ({
               task={task}
               updateTaskStatus={updateTaskStatus}
               setTasks={setTasks}
+              handleEditTask={handleEditTask}
             />
           ))}
         </div>
@@ -375,7 +424,7 @@ const Column = ({
 
 
 // TaskCard Component
-const TaskCard = ({ task, updateTaskStatus, setTasks }) => {
+const TaskCard = ({ task, updateTaskStatus, setTasks, handleEditTask }) => {
   const [showOptions, setShowOptions] = useState(false);
 
   // Calculate the checklist progress
@@ -526,9 +575,9 @@ const TaskCard = ({ task, updateTaskStatus, setTasks }) => {
           <button onClick={() => setShowOptions(!showOptions)}>...</button>
           {showOptions && (
             <div className="dropdown-menu">
-              <button>Edit</button>
+              <button onClick={() => handleEditTask(task)}>Edit</button>
               <button onClick={handleShare}>Share</button>
-              <button onClick={handleDelete}>Delete</button>
+              <button onClick={handleDelete} style={{color: 'red'}}>Delete</button>
             </div>
           )}
         </div>

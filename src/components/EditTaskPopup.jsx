@@ -5,39 +5,33 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
-import API from "../services/api"; // Import API service
-import "../css/CreateTaskPopup.css"; // Reuse the same CSS file
+import API from "../services/api";
+import "../css/EditTaskPopup.css"; 
 
-const EditTaskPopup = ({ isOpen, onClose, onUpdate, taskId, loggedInUserEmail }) => {
+const EditTaskPopup = ({
+  isOpen,
+  task,
+  onClose,
+  saveEdit,
+  loggedInUserEmail,
+}) => {
   const [title, setTitle] = useState("");
   const [priority, setPriority] = useState("");
-  const [assigneeId, setAssigneeId] = useState(""); // Store assignee ID instead of email
+  const [assigneeId, setAssigneeId] = useState(""); // Store assignee ID
   const [checklist, setChecklist] = useState([]);
   const [dueDate, setDueDate] = useState(null);
   const [availableAssignees, setAvailableAssignees] = useState([]); // State for fetched assignees
 
-  // Fetch task data when editing a task
+  // Initialize state when a task is set
   useEffect(() => {
-    const fetchTask = async () => {
-      try {
-        const response = await API.get(`/api/tasks/${taskId}`);
-        const task = response.data;
-
-        setTitle(task.title);
-        setPriority(task.priority);
-        setAssigneeId(task.assignee ? task.assignee._id : "");
-        setChecklist(task.checklist || []);
-        setDueDate(task.dueDate ? new Date(task.dueDate) : null);
-      } catch (error) {
-        console.error("Error fetching task data:", error);
-        toast.error("Failed to fetch task data.");
-      }
-    };
-
-    if (isOpen && taskId) {
-      fetchTask();
+    if (task) {
+      setTitle(task.title || "");
+      setPriority(task.priority || "");
+      setAssigneeId(task.assignee ? task.assignee._id : "");
+      setChecklist(task.checklist || []);
+      setDueDate(task.dueDate ? new Date(task.dueDate) : null);
     }
-  }, [isOpen, taskId]);
+  }, [task]); // Update when the task changes
 
   // Fetch available assignees (excluding logged-in user)
   useEffect(() => {
@@ -52,8 +46,11 @@ const EditTaskPopup = ({ isOpen, onClose, onUpdate, taskId, loggedInUserEmail })
         console.error("Error fetching assignees:", error);
       }
     };
-    fetchAssignees();
-  }, [loggedInUserEmail]);
+
+    if (task) {
+      fetchAssignees();
+    }
+  }, [task, loggedInUserEmail]);
 
   // Add a new checklist item
   const addChecklistItem = () => {
@@ -90,6 +87,7 @@ const EditTaskPopup = ({ isOpen, onClose, onUpdate, taskId, loggedInUserEmail })
     }
 
     const taskData = {
+      ...task, 
       title,
       priority,
       assignee: assigneeId || null, // Use assigneeId instead of email
@@ -98,16 +96,9 @@ const EditTaskPopup = ({ isOpen, onClose, onUpdate, taskId, loggedInUserEmail })
     };
 
     try {
-      // Use API service to update the task data
-      const response = await API.put(`/api/tasks/${taskId}`, taskData);
-
-      if (response.status === 200) {
-        toast.success("Task updated successfully!");
-        onUpdate(taskData); // Call the parent onUpdate function if needed
-        onClose(); // Close the popup after updating
-      } else {
-        toast.error("Failed to update task. Please try again.");
-      }
+      
+      saveEdit(taskData);
+      onClose(); // Close the popup after updating
     } catch (error) {
       console.error("Error updating task:", error);
       toast.error("An error occurred while updating the task.");
@@ -117,17 +108,17 @@ const EditTaskPopup = ({ isOpen, onClose, onUpdate, taskId, loggedInUserEmail })
   if (!isOpen) return null;
 
   return (
-    <div className="create-task-popup-overlay">
-      <div className="create-task-popup-content">
-        <form className="create-task-popup-form">
+    <div className="edit-task-popup-overlay">
+      <div className="edit-task-popup-content">
+        <form className="edit-task-popup-form">
           {/* Task Title */}
-          <div className="create-task-form-group">
+          <div className="edit-task-form-group">
             <label>
-              Title <span className="create-task-required">*</span>
+              Title <span className="edit-task-required">*</span>
             </label>
             <input
               type="text"
-              className="create-task-input"
+              className="edit-task-input"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               placeholder="Enter Task Title"
@@ -136,14 +127,14 @@ const EditTaskPopup = ({ isOpen, onClose, onUpdate, taskId, loggedInUserEmail })
           </div>
 
           {/* Task Priority */}
-          <div className="create-task-form-group create-task-priority-group">
+          <div className="edit-task-form-group edit-task-priority-group">
             <label>
-              Priority <span className="create-task-required">*</span>
+              Priority <span className="edit-task-required">*</span>
             </label>
-            <div className="create-task-priority-options">
+            <div className="edit-task-priority-options">
               <button
                 type="button"
-                className={`create-task-priority-option ${
+                className={`edit-task-priority-option ${
                   priority === "high" ? "active" : ""
                 }`}
                 onClick={() => setPriority("high")}
@@ -152,16 +143,17 @@ const EditTaskPopup = ({ isOpen, onClose, onUpdate, taskId, loggedInUserEmail })
               </button>
               <button
                 type="button"
-                className={`create-task-priority-option ${
+                className={`edit-task-priority-option ${
                   priority === "medium" ? "active" : ""
                 }`}
                 onClick={() => setPriority("medium")}
               >
-                <span className="priority-bullet medium"></span> MODERATE PRIORITY
+                <span className="priority-bullet medium"></span> MODERATE
+                PRIORITY
               </button>
               <button
                 type="button"
-                className={`create-task-priority-option ${
+                className={`edit-task-priority-option ${
                   priority === "low" ? "active" : ""
                 }`}
                 onClick={() => setPriority("low")}
@@ -172,10 +164,10 @@ const EditTaskPopup = ({ isOpen, onClose, onUpdate, taskId, loggedInUserEmail })
           </div>
 
           {/* Assignee */}
-          <div className="create-task-form-group">
+          <div className="edit-task-form-group">
             <label>Assign To</label>
             <select
-              className="create-task-dropdown"
+              className="edit-task-dropdown"
               value={assigneeId}
               onChange={(e) => setAssigneeId(e.target.value)}
             >
@@ -191,14 +183,14 @@ const EditTaskPopup = ({ isOpen, onClose, onUpdate, taskId, loggedInUserEmail })
           </div>
 
           {/* Checklist */}
-          <div className="create-task-form-group">
+          <div className="edit-task-form-group">
             <label>
-              Checklist ({checklist.filter((item) => item.completed).length}/{checklist.length}){" "}
-              <span className="create-task-required">*</span>
+              Checklist ({checklist.filter((item) => item.completed).length}/
+              {checklist.length}) <span className="edit-task-required">*</span>
             </label>
-            <ul className="create-task-checklist">
+            <ul className="edit-task-checklist">
               {checklist.map((item, index) => (
-                <li key={index} className="create-task-checklist-item">
+                <li key={index} className="edit-task-checklist-item">
                   <input
                     type="checkbox"
                     checked={item.completed}
@@ -207,13 +199,15 @@ const EditTaskPopup = ({ isOpen, onClose, onUpdate, taskId, loggedInUserEmail })
                   <input
                     type="text"
                     value={item.name}
-                    onChange={(e) => handleChecklistNameChange(index, e.target.value)}
+                    onChange={(e) =>
+                      handleChecklistNameChange(index, e.target.value)
+                    }
                     placeholder="Checklist item"
                     required
                   />
                   <button
                     type="button"
-                    className="create-task-delete-item-btn"
+                    className="edit-task-delete-item-btn"
                     onClick={() => removeChecklistItem(index)}
                   >
                     <FontAwesomeIcon
@@ -226,7 +220,7 @@ const EditTaskPopup = ({ isOpen, onClose, onUpdate, taskId, loggedInUserEmail })
             </ul>
             <button
               type="button"
-              className="create-task-add-item-btn"
+              className="edit-task-add-item-btn"
               onClick={addChecklistItem}
             >
               + Add a New
@@ -234,8 +228,8 @@ const EditTaskPopup = ({ isOpen, onClose, onUpdate, taskId, loggedInUserEmail })
           </div>
 
           {/* Save, Cancel, and Due Date Buttons */}
-          <div className="create-task-form-actions">
-            <div className="create-task-date-picker">
+          <div className="edit-task-form-actions">
+            <div className="edit-task-date-picker">
               <DatePicker
                 selected={dueDate}
                 onChange={(date) => setDueDate(date)}
@@ -243,17 +237,17 @@ const EditTaskPopup = ({ isOpen, onClose, onUpdate, taskId, loggedInUserEmail })
                 placeholderText="Select Due Date"
               />
             </div>
-            <div className="create-task-action-buttons">
+            <div className="edit-task-action-buttons">
               <button
                 type="button"
-                className="create-task-cancel-btn"
+                className="edit-task-cancel-btn"
                 onClick={onClose}
               >
                 Cancel
               </button>
               <button
                 type="button"
-                className="create-task-save-btn"
+                className="edit-task-save-btn"
                 onClick={handleUpdate}
               >
                 Save

@@ -1,0 +1,251 @@
+/* Overlay for the popup */
+.edit-task-popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+/* Main content area of the popup */
+.edit-task-popup-content {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  width: 666px; /* Adjusted width */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  position: relative;
+  max-height: 560px; /* Set max height */
+  overflow-y: auto; /* Enable vertical scrolling when content exceeds height */
+}
+
+/* Custom scrollbar styling */
+.edit-task-popup-content::-webkit-scrollbar {
+  width: 8px;
+}
+
+.edit-task-popup-content::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 5px;
+}
+
+.edit-task-popup-content::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 5px;
+}
+
+.edit-task-popup-content::-webkit-scrollbar-thumb:hover {
+  background: #aaa;
+}
+
+/* Form styling */
+.edit-task-popup-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+/* Form group */
+.edit-task-form-group {
+  display: flex;
+  flex-direction: column;
+  text-align: left; /* Align labels to the left */
+}
+
+.edit-task-form-group label {
+  font-size: 14px;
+  margin-bottom: 5px;
+}
+
+.edit-task-required {
+  color: rgba(255, 0, 0, 0.8);
+}
+
+/* Priority options styling */
+.edit-task-priority-group {
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+  gap: 10px; /* Space between label and priority options */
+}
+
+.edit-task-priority-options {
+  display: flex;
+  gap: 10px; /* Space between priority buttons */
+  align-items: center;
+}
+
+.edit-task-priority-option {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+  border: 1px solid #ccc; /* Styled as button */
+  border-radius: 5px;
+  padding: 5px 10px;
+  background-color: transparent;
+  transition: background-color 0.3s, border-color 0.3s;
+}
+
+.edit-task-priority-option.active {
+  background-color: rgba(238, 236, 236, 1);
+  border: none;
+}
+
+.edit-task-priority-option .priority-bullet {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.priority-bullet.high {
+  background-color: rgba(255, 36, 115, 1);
+}
+
+.priority-bullet.medium {
+  background-color: rgba(24, 176, 255, 1);
+}
+
+.priority-bullet.low {
+  background-color: rgba(99, 192, 91, 1);
+}
+
+/* Checklist styling */
+.edit-task-checklist {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.edit-task-checklist-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+  padding: 5px; /* Add padding for checkbox and delete icon */
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+/* Checklist inputs */
+.edit-task-checklist-item input[type="checkbox"] {
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border: 1px solid #ddd;
+  border-radius: 3px;
+  background: white;
+  cursor: pointer;
+  position: relative;
+}
+
+/* Active checkbox style */
+.edit-task-checklist-item input[type="checkbox"]:checked {
+  background: rgba(23, 162, 184, 1);
+  border: none;
+}
+
+.edit-task-checklist-item input[type="checkbox"]:checked::before {
+  content: "✓";
+  color: white;
+  display: block;
+  font-size: 12px;
+  text-align: center;
+  line-height: 16px;
+}
+
+/* Checklist item text input */
+.edit-task-checklist-item input[type="text"] {
+  flex: 1;
+  padding: 6px;
+  border: none;
+  font-size: 14px;
+}
+
+/* Delete button for checklist item */
+.edit-task-delete-item-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: rgba(255, 0, 0, 0.8);
+  font-size: 16px;
+  padding-right: 10px; /* Padding right for delete button */
+}
+
+/* Add checklist item button */
+.edit-task-add-item-btn {
+  background: none;
+  border: none;
+  color: rgba(118, 117, 117, 1);
+  cursor: pointer;
+  font-size: 14px;
+  text-align: left;
+  margin-top: 10px;
+  display: block;
+}
+
+/* Due Date picker */
+.edit-task-date-picker {
+  flex: 1;
+}
+
+.edit-task-date-picker input {
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  width: 100%;
+}
+
+/* Save and Cancel Buttons */
+.edit-task-form-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 20px;
+  gap: 10px;
+}
+
+.edit-task-cancel-btn,
+.edit-task-save-btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.edit-task-cancel-btn {
+  background-color: #ddd;
+  color: #333;
+  margin-right: 10px;
+}
+
+.edit-task-save-btn {
+  background-color: #007bff;
+  color: white;
+}
+
+.edit-task-save-btn:hover {
+  background-color: #0056b3;
+}
+
+/* Title and Assignee input styling to match checklist */
+.edit-task-input {
+  padding: 6px; /* Padding for consistency */
+  border: 1px solid #ddd; /* Match the checklist border */
+  border-radius: 5px;
+  font-size: 14px;
+}
+
+/* Dropdown styling for assignee */
+.edit-task-dropdown {
+  padding: 6px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 14px;
+}
