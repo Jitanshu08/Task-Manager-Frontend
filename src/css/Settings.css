@@ -1,17 +1,15 @@
 /* Container for the settings page */
 .settings-page {
-  padding: 20px;
-  max-width: 500px;
-  margin: 0 auto;
-  background-color: #f4f4f4;
-  border-radius: 8px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  padding: 20px; 
+  padding-top: 0;
+  width: 35%;
 }
 
 /* Form title */
 .settings-page h1 {
-  text-align: center;
+  font-size: 24px;
   margin-bottom: 20px;
+  text-align: left; 
 }
 
 /* Form group styling */
@@ -26,26 +24,52 @@
   font-weight: bold;
 }
 
+/* Wrapper for input with icon */
+.input-wrapper {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
 /* Input styling */
-.form-group input {
+.input-wrapper input {
   width: 100%;
-  padding: 10px;
+  padding: 0.8rem 0.8rem 0.8rem 40px; 
   border: 1px solid #ccc;
   border-radius: 5px;
   box-sizing: border-box;
 }
 
-/* Button styling */
-.settings-page button {
-  width: 100%;
-  padding: 10px;
-  background-color: #28a745;
-  color: white;
-  border: none;
-  border-radius: 5px;
+/* Icon styling */
+.input-icon {
+  position: absolute;
+  left: 10px;
+  width: 20px;
+  height: 20px;
+}
+
+/* Eye icon for password visibility toggle */
+.eye-icon {
+  position: absolute;
+  right: 10px;
+  width: 20px;
+  height: 20px;
   cursor: pointer;
 }
 
-.settings-page button:hover {
-  background-color: #218838;
+/* Update button styling */
+.update-btn {
+  width: 100%;
+  padding: 10px;
+  background-color: rgba(23, 162, 184, 1); 
+  color: white;
+  border: none;
+  border-radius: 55px; 
+  cursor: pointer;
+  font-size: 16px;
+  margin-top: 15px;
+}
+
+.update-btn:hover {
+  background-color: rgba(19, 136, 155, 1);
 }
