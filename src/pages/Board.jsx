@@ -4,8 +4,8 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronUp } from "@fortawesome/free-solid-svg-icons";
-import CreateTaskPopup from '../components/CreateTaskPopup';
-import EditTaskPopup from '../components/EditTaskPopup';
+import CreateTaskPopup from "../components/CreateTaskPopup";
+import EditTaskPopup from "../components/EditTaskPopup";
 import collapseIcon from "../assets/collapse1.png";
 import peopleIcon from "../assets/people.png";
 import "../css/Board.css";
@@ -27,11 +27,11 @@ const Board = () => {
     year: "numeric",
   });
 
-   // Save Task Function
-   const saveTask = (newTaskData) => {
+  // Save Task Function
+  const saveTask = (newTaskData) => {
     const newTask = {
       ...newTaskData,
-      status: 'to-do',
+      status: "to-do",
       isChecklistOpen: false,
     };
     setTasks([...tasks, newTask]);
@@ -39,6 +39,12 @@ const Board = () => {
 
   // Edit Task Function
   const editTask = async (editedTaskData) => {
+    if (!editedTaskData._id) {
+      console.error("Task ID is missing in edited data:", editedTaskData);
+      toast.error("Unable to update the task. Missing ID.");
+      return;
+    }
+
     try {
       await API.put(`/api/tasks/${editedTaskData._id}`, editedTaskData);
       setTasks(
@@ -321,17 +327,16 @@ const Board = () => {
 
       {/* Edit Task Popup */}
       {isEditTaskOpen && (
-  <div>
-    {console.log("Rendering EditTaskPopup:", isEditTaskOpen, taskToEdit)}
-    <EditTaskPopup
-    isOpen={isEditTaskOpen}
-      task={taskToEdit}
-      onClose={() => setEditTaskOpen(false)}
-      saveEdit={editTask}
-    />
-  </div>
-)}
-
+        <div>
+          {console.log("Rendering EditTaskPopup:", isEditTaskOpen, taskToEdit)}
+          <EditTaskPopup
+            isOpen={isEditTaskOpen}
+            task={taskToEdit}
+            onClose={() => setEditTaskOpen(false)}
+            saveEdit={editTask}
+          />
+        </div>
+      )}
 
       {/* Add People Popup */}
       {isAddPeoplePopupOpen && (
@@ -378,7 +383,7 @@ const Column = ({
   updateTaskStatus,
   setTasks,
   showCreateTaskButton,
-  setCreateTaskOpen, 
+  setCreateTaskOpen,
   handleEditTask,
   collapseAll,
 }) => {
@@ -390,7 +395,7 @@ const Column = ({
           {showCreateTaskButton && (
             <button
               className="create-task-btn"
-              onClick={() => setCreateTaskOpen(true)} 
+              onClick={() => setCreateTaskOpen(true)}
             >
               +
             </button>
@@ -421,7 +426,6 @@ const Column = ({
     </div>
   );
 };
-
 
 // TaskCard Component
 const TaskCard = ({ task, updateTaskStatus, setTasks, handleEditTask }) => {
@@ -466,17 +470,11 @@ const TaskCard = ({ task, updateTaskStatus, setTasks, handleEditTask }) => {
     });
   };
 
-  // Determine the assignee initials
-  const getAssigneeInitials = (email) => {
-    if (!email) return null;
-    const parts = email.split("@")[0];
-    const initials = parts
-      .split(".")
-      .map((part) => part.charAt(0))
-      .join("")
-      .toUpperCase()
-      .slice(0, 2);
-    return initials;
+  // Determine the assignee initials using the email
+  const getAssigneeInitials = (assignee) => {
+    if (!assignee || !assignee.email) return ""; // Return an empty string if the email is missing
+    const email = assignee.email.split("@")[0]; // Extract part before '@'
+    return email.slice(0, 2).toUpperCase(); // Get first two characters
   };
 
   // Format the priority text
@@ -563,7 +561,9 @@ const TaskCard = ({ task, updateTaskStatus, setTasks, handleEditTask }) => {
         <div className="priority-wrapper">
           {/* Display a colored bullet based on priority */}
           <span className={`priority-bullet ${task.priority}`}></span>
-          <span className="priority-text">{formatPriorityText(task.priority)}</span>
+          <span className="priority-text">
+            {formatPriorityText(task.priority)}
+          </span>
           {/* Render the assignee's initials if there's an assignee */}
           {task.assignee && (
             <span className="assignee-circle">
@@ -577,7 +577,9 @@ const TaskCard = ({ task, updateTaskStatus, setTasks, handleEditTask }) => {
             <div className="dropdown-menu">
               <button onClick={() => handleEditTask(task)}>Edit</button>
               <button onClick={handleShare}>Share</button>
-              <button onClick={handleDelete} style={{color: 'red'}}>Delete</button>
+              <button onClick={handleDelete} style={{ color: "red" }}>
+                Delete
+              </button>
             </div>
           )}
         </div>

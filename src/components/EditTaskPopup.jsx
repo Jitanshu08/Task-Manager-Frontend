@@ -4,9 +4,16 @@ import "react-toastify/dist/ReactToastify.css";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faTrash, faChevronDown, faChevronUp } from "@fortawesome/free-solid-svg-icons";
 import API from "../services/api";
-import "../css/EditTaskPopup.css"; 
+import "../css/EditTaskPopup.css";
+
+// Utility function to get initials from email
+const getInitialsFromEmail = (email) => {
+  if (!email) return null;
+  const parts = email.split("@")[0];
+  return parts.slice(0, 2).toUpperCase();
+};
 
 const EditTaskPopup = ({
   isOpen,
@@ -21,6 +28,7 @@ const EditTaskPopup = ({
   const [checklist, setChecklist] = useState([]);
   const [dueDate, setDueDate] = useState(null);
   const [availableAssignees, setAvailableAssignees] = useState([]); // State for fetched assignees
+  const [dropdownOpen, setDropdownOpen] = useState(false);
 
   // Initialize state when a task is set
   useEffect(() => {
@@ -31,7 +39,7 @@ const EditTaskPopup = ({
       setChecklist(task.checklist || []);
       setDueDate(task.dueDate ? new Date(task.dueDate) : null);
     }
-  }, [task]); // Update when the task changes
+  }, [task]);
 
   // Fetch available assignees (excluding logged-in user)
   useEffect(() => {
@@ -87,22 +95,26 @@ const EditTaskPopup = ({
     }
 
     const taskData = {
-      ...task, 
+      ...task,
       title,
       priority,
-      assignee: assigneeId || null, // Use assigneeId instead of email
+      assignee: assigneeId || null,
       checklist,
       dueDate,
     };
 
     try {
-      
       saveEdit(taskData);
-      onClose(); // Close the popup after updating
+      onClose();
     } catch (error) {
       console.error("Error updating task:", error);
       toast.error("An error occurred while updating the task.");
     }
+  };
+
+  const handleAssigneeSelect = (user) => {
+    setAssigneeId(user._id);
+    setDropdownOpen(false);
   };
 
   if (!isOpen) return null;
@@ -163,23 +175,44 @@ const EditTaskPopup = ({
             </div>
           </div>
 
-          {/* Assignee */}
+          {/* Custom Dropdown for Assignee */}
           <div className="edit-task-form-group">
             <label>Assign To</label>
-            <select
-              className="edit-task-dropdown"
-              value={assigneeId}
-              onChange={(e) => setAssigneeId(e.target.value)}
+            <div
+              className="custom-dropdown"
+              onClick={() => setDropdownOpen(!dropdownOpen)}
             >
-              <option value="" disabled>
-                Add an assignee
-              </option>
-              {availableAssignees.map((user) => (
-                <option key={user._id} value={user._id}>
-                  {user.email}
-                </option>
-              ))}
-            </select>
+              {assigneeId
+                ? availableAssignees.find((user) => user._id === assigneeId)
+                    ?.email || "Add an assignee"
+                : "Add an assignee"}
+              <FontAwesomeIcon
+                icon={dropdownOpen ? faChevronUp : faChevronDown}
+                className="dropdown-arrow"
+              />
+            </div>
+            {dropdownOpen && (
+              <div className="dropdown-list">
+                {availableAssignees.map((user) => (
+                  <div key={user._id} className="dropdown-item">
+                    <div
+                      className="assignee-icon"
+                      title={user.email}
+                      style={{ backgroundColor: "rgba(255, 235, 235, 1)" }}
+                    >
+                      {getInitialsFromEmail(user.email)}
+                    </div>
+                    <span>{user.email}</span>
+                    <button
+                      className="assign-button"
+                      onClick={() => handleAssigneeSelect(user)}
+                    >
+                      Assign
+                    </button>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
 
           {/* Checklist */}
