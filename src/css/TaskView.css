@@ -1,0 +1,168 @@
+
+.task-view-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #f4f4f4;
+  position: relative;
+}
+
+.task-view-header {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  display: flex;
+  align-items: center;
+}
+
+.task-view-icon {
+  width: 30px;
+  margin-right: 10px;
+}
+
+.task-view-title {
+  font-size: 22px;
+  font-weight: bold;
+  color: #333;
+}
+
+/* Main Task View Card */
+.task-view-card {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  width: 400px;
+  max-width: 90%;
+  margin-top: 50px;
+  max-height: 70vh; 
+  overflow-y: auto; 
+}
+
+/* Scrollbar Styling */
+.task-view-card::-webkit-scrollbar {
+  width: 10px;
+}
+
+.task-view-card::-webkit-scrollbar-track {
+  background: white; 
+  border-radius: 10px;
+}
+
+.task-view-card::-webkit-scrollbar-thumb {
+  background: rgba(156, 183, 197, 1); 
+  border-radius: 10px;
+}
+
+.task-view-card::-webkit-scrollbar-thumb:hover {
+  background: rgba(130, 160, 175, 1); 
+}
+
+/* Priority styling at the top-left corner */
+.task-view-priority {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-bottom: 10px;
+  font-size: 8px;
+  font-weight: bold;
+}
+
+.priority-bullet.high {
+  background-color: rgba(255, 36, 115, 1);
+}
+
+.priority-bullet.medium {
+  background-color: rgba(24, 176, 255, 1);
+}
+
+.priority-bullet.low {
+  background-color: rgba(99, 192, 91, 1);
+}
+
+.priority-bullet {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.task-view-header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start; /* Aligns to top */
+  margin-bottom: 15px;
+}
+
+.task-view-task-title {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.task-view-content {
+  margin-top: 15px;
+}
+
+.task-view-assignee {
+  margin-bottom: 10px;
+}
+
+/* Due Date Styling */
+.task-view-due-date-container {
+  margin-bottom: 10px;
+}
+
+.task-view-due-date {
+  font-weight: bold;
+  font-size: 14px;
+  color: white;
+  background: rgba(207, 54, 54, 1); 
+  padding: 5px 8px;
+  border-radius: 8px;
+  display: inline-block;
+}
+
+/* Checklist styling */
+.task-view-checklist ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.task-view-checklist-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+  border: 1px solid rgba(226, 226, 226, 1);
+  border-radius: 12px;
+  padding: 4px;
+}
+
+/* Checkbox styling */
+.task-view-checkbox {
+  margin-right: 10px;
+  cursor: pointer;
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(226, 226, 226, 1);
+  border-radius: 6px;
+  background: white;
+  position: relative;
+}
+
+/* Checked checkbox style */
+.task-view-checkbox:checked {
+  background-color: rgba(23, 162, 184, 1); 
+  border: none;
+}
+
+.task-view-checkbox:checked::before {
+  content: "✓";
+  color: white;
+  display: block;
+  font-size: 12px;
+  text-align: center;
+  line-height: 16px;
+}

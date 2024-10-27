@@ -10,6 +10,7 @@ import Register from "./pages/Register";
 import Board from "./pages/Board";
 import Analytics from "./pages/Analytics";
 import Settings from "./pages/Settings";
+import TaskView from "./pages/TaskView";
 import Layout from "./components/Layout";
 import "./css/App.css";
 import { ToastContainer } from "react-toastify";
@@ -34,6 +35,7 @@ function App() {
             element={<Login setIsLoggedIn={setIsLoggedIn} />}
           />
           <Route path="/register" element={<Register />} />
+          <Route path="/task/:taskId" element={<TaskView />} />
 
           {isLoggedIn ? (
             <>

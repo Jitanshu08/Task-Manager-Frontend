@@ -34,7 +34,7 @@ const Analytics = () => {
 
   return (
     <div className="analytics-container">
-      <h1>Task Analytics</h1>
+      <h1>Analytics</h1> {/* Updated Title */}
       <div className="analytics-columns">
 
         <div className="analytics-box">
