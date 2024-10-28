@@ -34,7 +34,7 @@ const Analytics = () => {
 
   return (
     <div className="analytics-container">
-      <h1>Analytics</h1> {/* Updated Title */}
+      <h1 style={{fontSize:'22px', marginBottom: '20px'}}>Analytics</h1>
       <div className="analytics-columns">
 
         <div className="analytics-box">

@@ -19,12 +19,41 @@ const Register = () => {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const navigate = useNavigate();
 
+  // Function to check password strength requirements
+  const validatePassword = (password) => {
+    if (password.length < 8) {
+      return "Password must be at least 8 characters long.";
+    }
+    if (!/[A-Z]/.test(password)) {
+      return "Password must contain at least one uppercase letter.";
+    }
+    if (!/[a-z]/.test(password)) {
+      return "Password must contain at least one lowercase letter.";
+    }
+    if (!/\d/.test(password)) {
+      return "Password must contain at least one number.";
+    }
+    if (!/[!@#$%^&*(),.?":{}|<>]/.test(password)) {
+      return "Password must contain at least one special character.";
+    }
+    return null;
+  };
+
   const handleRegister = async (e) => {
     e.preventDefault();
+
+    // Validate passwords before submitting
     if (password !== confirmPassword) {
       toast.error("Passwords do not match!");
       return;
     }
+
+    const passwordError = validatePassword(password);
+    if (passwordError) {
+      toast.error(passwordError);
+      return;
+    }
+
     try {
       const response = await API.post("/api/users/register", {
         name,
@@ -34,6 +63,7 @@ const Register = () => {
       const { token } = response.data;
       localStorage.setItem("token", token);
       toast.success("Registered successfully!");
+      navigate("/board");
     } catch (error) {
       toast.error("Registration failed!");
     }

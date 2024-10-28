@@ -10,17 +10,42 @@ import collapseIcon from "../assets/collapse1.png";
 import peopleIcon from "../assets/people.png";
 import "../css/Board.css";
 
+const DeleteConfirmationPopup = ({ isOpen, onConfirm, onCancel }) => {
+  if (!isOpen) return null;
+
+  return (
+    <div className="delete-confirmation-overlay">
+      <div className="delete-confirmation-content">
+        <h3 className="delete-confirmation-message">
+          Are you sure you want to Delete?
+        </h3>
+        <div className="delete-confirmation-actions">
+          <button className="confirm-delete-btn" onClick={onConfirm}>
+            Yes, Delete
+          </button>
+          <button className="cancel-delete-btn" onClick={onCancel}>
+            Cancel
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 const Board = () => {
   const [tasks, setTasks] = useState([]);
   const [isAddPeoplePopupOpen, setAddPeoplePopupOpen] = useState(false);
   const [assigneeEmail, setAssigneeEmail] = useState("");
   const [emailAdded, setEmailAdded] = useState(false);
+  const [addedEmail, setAddedEmail] = useState(""); // Track added email
   const [filter, setFilter] = useState("Today");
   const [userName, setUserName] = useState("");
   const [filterDropdownOpen, setFilterDropdownOpen] = useState(false);
   const [isCreateTaskOpen, setCreateTaskOpen] = useState(false);
-  const [isEditTaskOpen, setEditTaskOpen] = useState(false); // State for Edit Task popup
-  const [taskToEdit, setTaskToEdit] = useState(null); // State to store the task being edited
+  const [isEditTaskOpen, setEditTaskOpen] = useState(false);
+  const [isDeletePopupOpen, setDeletePopupOpen] = useState(false);
+  const [taskToDelete, setTaskToDelete] = useState(null);
+  const [taskToEdit, setTaskToEdit] = useState(null);
   const todayDate = new Date().toLocaleDateString("en-US", {
     month: "short",
     day: "numeric",
@@ -63,10 +88,31 @@ const Board = () => {
 
   // Function to open Edit Task Popup
   const handleEditTask = (task) => {
-    console.log("Edit task clicked:", task); // Debugging line
     setTaskToEdit(task);
     setEditTaskOpen(true);
-    console.log("isEditTaskOpen set to true, taskToEdit set:", task);
+  };
+
+  // Function to open the Delete Confirmation Popup
+  const openDeletePopup = (task) => {
+    setTaskToDelete(task);
+    setDeletePopupOpen(true);
+  };
+
+  // Unified function to handle task deletion with confirmation
+  const confirmDelete = async () => {
+    if (!taskToDelete) return;
+
+    try {
+      await API.delete(`/api/tasks/${taskToDelete._id}`);
+      setTasks((tasks) => tasks.filter((t) => t._id !== taskToDelete._id));
+      toast.success("Task deleted successfully!");
+    } catch (error) {
+      console.error("Error deleting task:", error);
+      toast.error("Failed to delete the task.");
+    } finally {
+      setDeletePopupOpen(false);
+      setTaskToDelete(null);
+    }
   };
 
   // Fetch logged-in user details
@@ -210,8 +256,8 @@ const Board = () => {
         }
       );
 
-      toast.success(`${assigneeEmail} added to board!`);
       setEmailAdded(true);
+      setAddedEmail(assigneeEmail); // Track the added email
       setAssigneeEmail("");
     } catch (error) {
       toast.error("Error adding email");
@@ -237,15 +283,17 @@ const Board = () => {
       <div className="board-title-row">
         <div className="title-and-actions">
           <h2>Board</h2>
-          <div className="board-actions">
+          <div
+            className="board-actions"
+            onClick={() => {
+              setAddPeoplePopupOpen(true);
+              setEmailAdded(false);
+            }}
+          >
             <img
               src={peopleIcon}
               alt="Add People"
               className="add-people-icon"
-              onClick={() => {
-                setAddPeoplePopupOpen(true);
-                setEmailAdded(false);
-              }}
             />
             <span>Add People</span>
           </div>
@@ -295,6 +343,7 @@ const Board = () => {
             setTasks={setTasks}
             collapseAll={() => collapseAllTasks(tasksByStatus.backlog)}
             handleEditTask={handleEditTask}
+            openDeletePopup={openDeletePopup}
           />
           <Column
             title="To-Do"
@@ -305,6 +354,7 @@ const Board = () => {
             setCreateTaskOpen={setCreateTaskOpen}
             collapseAll={() => collapseAllTasks(tasksByStatus.todo)}
             handleEditTask={handleEditTask}
+            openDeletePopup={openDeletePopup}
           />
           <Column
             title="In-Progress"
@@ -313,6 +363,7 @@ const Board = () => {
             setTasks={setTasks}
             collapseAll={() => collapseAllTasks(tasksByStatus.inProgress)}
             handleEditTask={handleEditTask}
+            openDeletePopup={openDeletePopup}
           />
           <Column
             title="Done"
@@ -321,6 +372,7 @@ const Board = () => {
             setTasks={setTasks}
             collapseAll={() => collapseAllTasks(tasksByStatus.done)}
             handleEditTask={handleEditTask}
+            openDeletePopup={openDeletePopup}
           />
         </div>
       </div>
@@ -328,7 +380,6 @@ const Board = () => {
       {/* Edit Task Popup */}
       {isEditTaskOpen && (
         <div>
-          {console.log("Rendering EditTaskPopup:", isEditTaskOpen, taskToEdit)}
           <EditTaskPopup
             isOpen={isEditTaskOpen}
             task={taskToEdit}
@@ -338,39 +389,65 @@ const Board = () => {
         </div>
       )}
 
-      {/* Add People Popup */}
       {isAddPeoplePopupOpen && (
         <div className="popup-overlay">
-          <div className="popup-content">
-            <h3>Add Assignee</h3>
+          <div
+            className={`popup-content ${
+              emailAdded ? "center-mode" : "add-email-mode"
+            }`}
+          >
             {!emailAdded ? (
               <>
+                <h3 style={{ paddingBottom: "20px" }}>
+                  Add people to the board
+                </h3>
                 <input
                   type="email"
                   placeholder="Enter assignee email"
                   value={assigneeEmail}
                   onChange={(e) => setAssigneeEmail(e.target.value)}
                 />
-                <div className="popup-actions">
-                  <button onClick={handleAddEmail}>Add Email</button>
-                  <button onClick={() => setAddPeoplePopupOpen(false)}>
+                <div className="popup-actions add-email-mode">
+                  <button
+                    className="cancel-btn"
+                    onClick={() => setAddPeoplePopupOpen(false)}
+                  >
                     Cancel
+                  </button>
+                  <button className="add-email-btn" onClick={handleAddEmail}>
+                    Add Email
                   </button>
                 </div>
               </>
             ) : (
-              <button onClick={() => setAddPeoplePopupOpen(false)}>
-                Okay, got it
-              </button>
+              <div>
+                <p style={{ marginBottom: "20px" }}>
+                  {addedEmail} added to board!
+                </p>
+                <button
+                  className="okay-got-it-btn"
+                  onClick={() => setAddPeoplePopupOpen(false)}
+                >
+                  Okay, got it
+                </button>
+              </div>
             )}
           </div>
         </div>
       )}
+
       {/* Create Task Popup */}
       <CreateTaskPopup
         isOpen={isCreateTaskOpen}
         onClose={() => setCreateTaskOpen(false)}
         onSave={saveTask}
+      />
+
+      {/* Delete Confirmation Popup */}
+      <DeleteConfirmationPopup
+        isOpen={isDeletePopupOpen}
+        onConfirm={confirmDelete}
+        onCancel={() => setDeletePopupOpen(false)}
       />
     </div>
   );
@@ -386,6 +463,7 @@ const Column = ({
   setCreateTaskOpen,
   handleEditTask,
   collapseAll,
+  openDeletePopup,
 }) => {
   return (
     <div className="board-column">
@@ -419,6 +497,7 @@ const Column = ({
               updateTaskStatus={updateTaskStatus}
               setTasks={setTasks}
               handleEditTask={handleEditTask}
+              openDeletePopup={openDeletePopup}
             />
           ))}
         </div>
@@ -428,7 +507,13 @@ const Column = ({
 };
 
 // TaskCard Component
-const TaskCard = ({ task, updateTaskStatus, setTasks, handleEditTask }) => {
+const TaskCard = ({
+  task,
+  updateTaskStatus,
+  setTasks,
+  handleEditTask,
+  openDeletePopup,
+}) => {
   const [showOptions, setShowOptions] = useState(false);
 
   // Calculate the checklist progress
@@ -450,15 +535,6 @@ const TaskCard = ({ task, updateTaskStatus, setTasks, handleEditTask }) => {
       );
     } catch (error) {
       console.error("Error updating checklist:", error);
-    }
-  };
-
-  const handleDelete = async () => {
-    try {
-      await API.delete(`/api/tasks/${task._id}`);
-      setTasks((tasks) => tasks.filter((t) => t._id !== task._id));
-    } catch (error) {
-      console.error("Error deleting task:", error);
     }
   };
 
@@ -577,7 +653,10 @@ const TaskCard = ({ task, updateTaskStatus, setTasks, handleEditTask }) => {
             <div className="dropdown-menu">
               <button onClick={() => handleEditTask(task)}>Edit</button>
               <button onClick={handleShare}>Share</button>
-              <button onClick={handleDelete} style={{ color: "red" }}>
+              <button
+                onClick={() => openDeletePopup(task)}
+                style={{ color: "red" }}
+              >
                 Delete
               </button>
             </div>

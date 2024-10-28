@@ -24,10 +24,10 @@ const EditTaskPopup = ({
 }) => {
   const [title, setTitle] = useState("");
   const [priority, setPriority] = useState("");
-  const [assigneeId, setAssigneeId] = useState(""); // Store assignee ID
+  const [assigneeId, setAssigneeId] = useState(""); 
   const [checklist, setChecklist] = useState([]);
   const [dueDate, setDueDate] = useState(null);
-  const [availableAssignees, setAvailableAssignees] = useState([]); // State for fetched assignees
+  const [availableAssignees, setAvailableAssignees] = useState([]);
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
   // Initialize state when a task is set

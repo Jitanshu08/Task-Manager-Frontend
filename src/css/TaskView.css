@@ -1,19 +1,22 @@
-
+/* Task View Container */
 .task-view-container {
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background-color: #f4f4f4;
+  background: rgba(255, 255, 255, 1); /* Updated background */
   position: relative;
+  padding: 20px; /* Added padding for mobile view */
 }
 
+/* Header styling */
 .task-view-header {
   position: absolute;
-  top: 20px;
-  left: 20px;
+  top: 10px;
+  left: 10px;
   display: flex;
   align-items: center;
+  flex-direction: row; /* Ensure alignment on mobile */
 }
 
 .task-view-icon {
@@ -29,15 +32,15 @@
 
 /* Main Task View Card */
 .task-view-card {
-  background: white;
+  background: rgba(255, 255, 255, 1); /* Updated background */
   padding: 20px;
   border-radius: 8px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-  width: 400px;
-  max-width: 90%;
+  width: 90%; /* Adjust width for mobile */
+  max-width: 400px;
   margin-top: 50px;
-  max-height: 70vh; 
-  overflow-y: auto; 
+  max-height: 80vh;
+  overflow-y: auto;
+  border: 2px solid rgba(237, 245, 254, 1); /* Updated border */
 }
 
 /* Scrollbar Styling */
@@ -46,17 +49,17 @@
 }
 
 .task-view-card::-webkit-scrollbar-track {
-  background: white; 
+  background: white;
   border-radius: 10px;
 }
 
 .task-view-card::-webkit-scrollbar-thumb {
-  background: rgba(156, 183, 197, 1); 
+  background: rgba(156, 183, 197, 1);
   border-radius: 10px;
 }
 
 .task-view-card::-webkit-scrollbar-thumb:hover {
-  background: rgba(130, 160, 175, 1); 
+  background: rgba(130, 160, 175, 1);
 }
 
 /* Priority styling at the top-left corner */
@@ -65,7 +68,7 @@
   align-items: center;
   gap: 5px;
   margin-bottom: 10px;
-  font-size: 8px;
+  font-size: 10px; /* Slightly increase for mobile readability */
   font-weight: bold;
 }
 
@@ -88,25 +91,32 @@
   display: inline-block;
 }
 
+/* Task Header Content */
 .task-view-header-content {
   display: flex;
   justify-content: space-between;
-  align-items: flex-start; /* Aligns to top */
+  align-items: flex-start;
   margin-bottom: 15px;
+  flex-direction: column; /* Stack content vertically on smaller screens */
 }
 
+/* Task Title */
 .task-view-task-title {
   font-size: 20px;
   font-weight: bold;
   margin-bottom: 5px;
+  word-wrap: break-word; /* Ensure text breaks in mobile */
 }
 
+/* Task Content */
 .task-view-content {
   margin-top: 15px;
 }
 
+/* Assignee section */
 .task-view-assignee {
   margin-bottom: 10px;
+  font-size: 14px; /* Adjust font size for readability on mobile */
 }
 
 /* Due Date Styling */
@@ -118,13 +128,13 @@
   font-weight: bold;
   font-size: 14px;
   color: white;
-  background: rgba(207, 54, 54, 1); 
+  background: rgba(207, 54, 54, 1);
   padding: 5px 8px;
   border-radius: 8px;
   display: inline-block;
 }
 
-/* Checklist styling */
+/* Checklist Styling */
 .task-view-checklist ul {
   list-style: none;
   padding: 0;
@@ -137,10 +147,11 @@
   margin-bottom: 8px;
   border: 1px solid rgba(226, 226, 226, 1);
   border-radius: 12px;
-  padding: 4px;
+  padding: 8px; /* Updated padding */
+  font-size: 14px; /* Adjust font size for better visibility on mobile */
 }
 
-/* Checkbox styling */
+/* Checkbox Styling */
 .task-view-checkbox {
   margin-right: 10px;
   cursor: pointer;
@@ -152,9 +163,9 @@
   position: relative;
 }
 
-/* Checked checkbox style */
+/* Checked Checkbox Style */
 .task-view-checkbox:checked {
-  background-color: rgba(23, 162, 184, 1); 
+  background-color: rgba(23, 162, 184, 1);
   border: none;
 }
 
@@ -165,4 +176,40 @@
   font-size: 12px;
   text-align: center;
   line-height: 16px;
+}
+
+/* Media Queries for Mobile */
+@media (max-width: 768px) {
+  .task-view-container {
+    height: auto; /* Allow height to adjust for mobile */
+    padding: 10px; /* Less padding on mobile */
+  }
+
+  .task-view-header {
+    top: 5px;
+    left: 5px;
+  }
+
+  .task-view-card {
+    width: 100%; /* Use full width on mobile */
+    margin-top: 30px;
+    padding: 15px; /* Reduce padding for mobile */
+    box-shadow: none; /* Remove shadow for simpler look on mobile */
+  }
+
+  .task-view-priority {
+    font-size: 12px; /* Increase font size slightly for readability */
+  }
+
+  .task-view-task-title {
+    font-size: 18px;
+  }
+
+  .task-view-content {
+    margin-top: 10px; /* Reduce top margin */
+  }
+
+  .task-view-checklist-item {
+    font-size: 12px; /* Slightly smaller for mobile */
+  }
 }
