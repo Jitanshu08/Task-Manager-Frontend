@@ -37,7 +37,7 @@ const Board = () => {
   const [isAddPeoplePopupOpen, setAddPeoplePopupOpen] = useState(false);
   const [assigneeEmail, setAssigneeEmail] = useState("");
   const [emailAdded, setEmailAdded] = useState(false);
-  const [addedEmail, setAddedEmail] = useState(""); // Track added email
+  const [addedEmail, setAddedEmail] = useState("");
   const [filter, setFilter] = useState("Today");
   const [userName, setUserName] = useState("");
   const [filterDropdownOpen, setFilterDropdownOpen] = useState(false);
@@ -403,7 +403,7 @@ const Board = () => {
                 </h3>
                 <input
                   type="email"
-                  placeholder="Enter assignee email"
+                  placeholder="Enter the email"
                   value={assigneeEmail}
                   onChange={(e) => setAssigneeEmail(e.target.value)}
                 />
@@ -421,7 +421,13 @@ const Board = () => {
               </>
             ) : (
               <div>
-                <p style={{ marginBottom: "20px" }}>
+                <p
+                  style={{
+                    marginBottom: "20px",
+                    fontFamily: '"Noto Sans", sans-serif',
+                    fontWeight: "600",
+                  }}
+                >
                   {addedEmail} added to board!
                 </p>
                 <button

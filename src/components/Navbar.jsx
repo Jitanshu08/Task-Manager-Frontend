@@ -14,7 +14,7 @@ const Navbar = () => {
 
   // State to keep track of the active page
   const [activePage, setActivePage] = useState(location.pathname);
-  const [isLogoutPopupOpen, setLogoutPopupOpen] = useState(false); // State for LogoutPopup
+  const [isLogoutPopupOpen, setLogoutPopupOpen] = useState(false);
 
   const handleNavigation = (path) => {
     setActivePage(path);

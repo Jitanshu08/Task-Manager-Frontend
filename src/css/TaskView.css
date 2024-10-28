@@ -4,9 +4,9 @@
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background: rgba(255, 255, 255, 1); /* Updated background */
+  background: rgba(255, 255, 255, 1); 
   position: relative;
-  padding: 20px; /* Added padding for mobile view */
+  padding: 20px; 
 }
 
 /* Header styling */
@@ -16,7 +16,7 @@
   left: 10px;
   display: flex;
   align-items: center;
-  flex-direction: row; /* Ensure alignment on mobile */
+  flex-direction: row; 
 }
 
 .task-view-icon {
@@ -32,15 +32,15 @@
 
 /* Main Task View Card */
 .task-view-card {
-  background: rgba(255, 255, 255, 1); /* Updated background */
+  background: rgba(255, 255, 255, 1); 
   padding: 20px;
   border-radius: 8px;
-  width: 90%; /* Adjust width for mobile */
+  width: 90%; 
   max-width: 400px;
   margin-top: 50px;
   max-height: 80vh;
   overflow-y: auto;
-  border: 2px solid rgba(237, 245, 254, 1); /* Updated border */
+  border: 2px solid rgba(237, 245, 254, 1); 
 }
 
 /* Scrollbar Styling */
@@ -68,7 +68,7 @@
   align-items: center;
   gap: 5px;
   margin-bottom: 10px;
-  font-size: 10px; /* Slightly increase for mobile readability */
+  font-size: 10px; 
   font-weight: bold;
 }
 
@@ -97,7 +97,7 @@
   justify-content: space-between;
   align-items: flex-start;
   margin-bottom: 15px;
-  flex-direction: column; /* Stack content vertically on smaller screens */
+  flex-direction: column; 
 }
 
 /* Task Title */
@@ -105,7 +105,7 @@
   font-size: 20px;
   font-weight: bold;
   margin-bottom: 5px;
-  word-wrap: break-word; /* Ensure text breaks in mobile */
+  word-wrap: break-word; 
 }
 
 /* Task Content */
@@ -116,7 +116,7 @@
 /* Assignee section */
 .task-view-assignee {
   margin-bottom: 10px;
-  font-size: 14px; /* Adjust font size for readability on mobile */
+  font-size: 14px; 
 }
 
 /* Due Date Styling */
@@ -147,8 +147,8 @@
   margin-bottom: 8px;
   border: 1px solid rgba(226, 226, 226, 1);
   border-radius: 12px;
-  padding: 8px; /* Updated padding */
-  font-size: 14px; /* Adjust font size for better visibility on mobile */
+  padding: 8px; 
+  font-size: 14px; 
 }
 
 /* Checkbox Styling */
@@ -181,8 +181,8 @@
 /* Media Queries for Mobile */
 @media (max-width: 768px) {
   .task-view-container {
-    height: auto; /* Allow height to adjust for mobile */
-    padding: 10px; /* Less padding on mobile */
+    height: auto; 
+    padding: 10px; 
   }
 
   .task-view-header {
@@ -191,14 +191,14 @@
   }
 
   .task-view-card {
-    width: 100%; /* Use full width on mobile */
+    width: 100%; 
     margin-top: 30px;
-    padding: 15px; /* Reduce padding for mobile */
-    box-shadow: none; /* Remove shadow for simpler look on mobile */
+    padding: 15px; 
+    box-shadow: none; 
   }
 
   .task-view-priority {
-    font-size: 12px; /* Increase font size slightly for readability */
+    font-size: 12px; 
   }
 
   .task-view-task-title {
@@ -206,10 +206,10 @@
   }
 
   .task-view-content {
-    margin-top: 10px; /* Reduce top margin */
+    margin-top: 10px; 
   }
 
   .task-view-checklist-item {
-    font-size: 12px; /* Slightly smaller for mobile */
+    font-size: 12px; 
   }
 }

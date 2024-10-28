@@ -17,11 +17,11 @@
   background: white;
   padding: 20px;
   border-radius: 8px;
-  width: 666px; /* Adjusted width */
+  width: 666px; 
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
   position: relative;
-  max-height: 560px; /* Set max height */
-  overflow-y: auto; /* Enable vertical scrolling when content exceeds height */
+  max-height: 560px; 
+  overflow-y: auto; 
 }
 
 /* Custom scrollbar styling */
@@ -54,7 +54,7 @@
 .edit-task-form-group {
   display: flex;
   flex-direction: column;
-  text-align: left; /* Align labels to the left */
+  text-align: left; 
 }
 
 .edit-task-form-group label {
@@ -71,12 +71,12 @@
   display: flex;
   flex-direction: row;
   align-items: baseline;
-  gap: 10px; /* Space between label and priority options */
+  gap: 10px; 
 }
 
 .edit-task-priority-options {
   display: flex;
-  gap: 10px; /* Space between priority buttons */
+  gap: 10px; 
   align-items: center;
 }
 
@@ -85,7 +85,7 @@
   align-items: center;
   gap: 5px;
   cursor: pointer;
-  border: 1px solid #ccc; /* Styled as button */
+  border: 1px solid #ccc; 
   border-radius: 5px;
   padding: 5px 10px;
   background-color: transparent;
@@ -127,7 +127,7 @@
   display: flex;
   align-items: center;
   margin-bottom: 10px;
-  padding: 5px; /* Add padding for checkbox and delete icon */
+  padding: 5px; 
   border: 1px solid #ddd;
   border-radius: 5px;
 }
@@ -174,7 +174,7 @@
   cursor: pointer;
   color: rgba(255, 0, 0, 0.8);
   font-size: 16px;
-  padding-right: 10px; /* Padding right for delete button */
+  padding-right: 10px; 
 }
 
 /* Add checklist item button */
@@ -236,8 +236,8 @@
 
 /* Title and Assignee input styling to match checklist */
 .edit-task-input {
-  padding: 6px; /* Padding for consistency */
-  border: 1px solid #ddd; /* Match the checklist border */
+  padding: 6px; 
+  border: 1px solid #ddd; 
   border-radius: 5px;
   font-size: 14px;
 }
@@ -254,7 +254,7 @@
 .dropdown-item {
   display: flex;
   align-items: center;
-  justify-content: space-between; /* Space between email and the assign button */
+  justify-content: space-between; 
   padding: 8px;
   cursor: pointer;
   position: relative;
@@ -271,7 +271,7 @@
   height: 24px;
   margin-right: 8px;
   border-radius: 50%;
-  background: rgba(255, 235, 235, 1); /* Background color */
+  background: rgba(255, 235, 235, 1); 
   color: #555;
   font-size: 12px;
   font-weight: bold;
@@ -289,12 +289,12 @@
   cursor: pointer;
   font-size: 12px;
   transition: background-color 0.2s;
-  margin-left: auto; /* Push the button to the right */
-  margin-right: 10px; /* Add a right margin */
+  margin-left: auto; 
+  margin-right: 10px; 
 }
 
 .assign-button:hover {
-  background-color: rgba(245, 245, 245, 1); /* Light hover effect */
+  background-color: rgba(245, 245, 245, 1); 
 }
 
 /* Custom Dropdown Styling */
@@ -316,7 +316,7 @@
   margin-left: 8px;
   color: #555;
   position: absolute;
-  right: 10px; /* Aligns it to the right */
+  right: 10px; 
   pointer-events: none;
 }
 
