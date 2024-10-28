@@ -7,7 +7,7 @@ const LogoutPopup = ({ isOpen, onConfirm, onCancel }) => {
   return (
     <div className="logout-popup-overlay">
       <div className="logout-popup-content">
-        <h2>Are you sure you want to Logout?</h2>
+        <h2 style={{ fontSize: "14px" }}>Are you sure you want to Logout?</h2>
         <div className="logout-popup-buttons">
           <button className="confirm-logout-btn" onClick={onConfirm}>
             Yes, Logout

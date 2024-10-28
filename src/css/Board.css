@@ -1,3 +1,20 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
+
+/* Poppins font to the whole board */
+body,
+.board-container,
+.board-header h1,
+.board-title-row h2,
+.board-actions,
+.popup-actions button,
+.okay-got-it-btn,
+.task-card h3,
+.task-view-due-date,
+.priority-text,
+.task-actions button {
+  font-family: "Poppins", sans-serif;
+}
+
 /* Board container */
 .board-container {
   padding: 20px;
@@ -12,7 +29,7 @@
 }
 
 .board-header h1 {
-  font-size: 18px;
+  font-size: 22px;
 }
 
 .board-header span {
@@ -41,6 +58,8 @@
 .board-actions {
   display: flex;
   align-items: center;
+  font-size: 14px;
+  color: rgba(112, 112, 112, 1);
 }
 
 .add-people-icon {
@@ -59,6 +78,7 @@
   border: none;
   cursor: pointer;
   font-size: 16px;
+  font-family: "Poppins", sans-serif;
 }
 
 .filter-options {
@@ -122,8 +142,8 @@
 
 /* Input styling */
 .popup-content input {
-  width: 90%; 
-  max-width: 600px; 
+  width: 90%;
+  max-width: 600px;
   padding: 12px;
   margin-bottom: 20px;
   font-size: 14px;
@@ -137,7 +157,7 @@
   display: flex;
   gap: 20px;
   width: 100%;
-  max-width: 600px; 
+  max-width: 600px;
 }
 
 /* Buttons for adding email */

@@ -1,3 +1,9 @@
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&display=swap");
+
+body,.analytics-container{
+  font-family: "Open Sans", sans-serif;
+}
+
 /* Container for the analytics page */
 .analytics-container {
   padding: 0 20px;

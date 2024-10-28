@@ -1,3 +1,11 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
+
+/* Apply Poppins font to the entire navbar */
+body,
+.app-navbar {
+  font-family: "Poppins", sans-serif;
+}
+
 /* Navbar Container */
 .app-navbar {
   height: 100vh;
@@ -6,8 +14,8 @@
   border-right: 1px solid rgba(237, 245, 254, 1);
   display: flex;
   flex-direction: column;
-  /* justify-content: space-between; */
   position: fixed;
+  font-family: "Poppins", sans-serif;
 }
 
 /* Navbar Header */
@@ -29,6 +37,7 @@
   font-weight: bold;
   color: #000;
   margin: 0;
+  font-family: "Poppins", sans-serif;
 }
 
 /* Navbar Menu */
@@ -42,6 +51,7 @@
   padding-top: 1rem;
   margin-top: 0.5rem;
   margin-bottom: auto;
+  font-family: "Poppins", sans-serif;
 }
 
 /* Navbar Footer (Logout button at the bottom) */
@@ -52,6 +62,7 @@
   display: flex;
   flex-direction: column;
   margin-bottom: 1rem;
+  font-family: "Poppins", sans-serif;
 }
 
 /* Navbar Items */
@@ -63,6 +74,7 @@
   font-size: 14px;
   color: #000;
   transition: background-color 0.3s;
+  font-family: "Poppins", sans-serif;
 }
 
 .navbar-item:hover {
@@ -85,6 +97,7 @@
   margin-top: auto;
   color: rgba(207, 54, 54, 1);
   padding-bottom: 1rem;
+  font-family: "Poppins", sans-serif;
 }
 
 .navbar-logout:hover {

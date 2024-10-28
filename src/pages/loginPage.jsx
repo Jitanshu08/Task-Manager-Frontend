@@ -13,10 +13,16 @@ const Login = ({ setIsLoggedIn }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false); // Loading state
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
+
+    // Prevent multiple clicks while loading
+    if (loading) return;
+
+    setLoading(true); // Start loading
     try {
       const response = await API.post("/api/users/login", { email, password });
       const { token } = response.data;
@@ -29,6 +35,8 @@ const Login = ({ setIsLoggedIn }) => {
       navigate("/board");
     } catch (error) {
       toast.error("Invalid credentials!");
+    } finally {
+      setLoading(false); // Stop loading
     }
   };
 
@@ -77,8 +85,8 @@ const Login = ({ setIsLoggedIn }) => {
               onClick={() => setShowPassword(!showPassword)}
             />
           </div>
-          <button type="submit" className="login-submit-btn">
-            Log in
+          <button type="submit" className="login-submit-btn" disabled={loading}>
+            {loading ? "Loading..." : "Log in"}
           </button>
         </form>
         <p className="login-note">Have no account yet?</p>

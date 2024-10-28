@@ -17,6 +17,7 @@ const Register = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [loading, setLoading] = useState(false); // Loading state
   const navigate = useNavigate();
 
   // Function to check password strength requirements
@@ -42,6 +43,9 @@ const Register = () => {
   const handleRegister = async (e) => {
     e.preventDefault();
 
+    // Prevent multiple clicks while loading
+    if (loading) return;
+
     // Validate passwords before submitting
     if (password !== confirmPassword) {
       toast.error("Passwords do not match!");
@@ -54,6 +58,7 @@ const Register = () => {
       return;
     }
 
+    setLoading(true); // Start loading
     try {
       const response = await API.post("/api/users/register", {
         name,
@@ -66,6 +71,8 @@ const Register = () => {
       navigate("/board");
     } catch (error) {
       toast.error("Registration failed!");
+    } finally {
+      setLoading(false); // Stop loading
     }
   };
 
@@ -154,8 +161,12 @@ const Register = () => {
               onClick={() => setShowConfirmPassword(!showConfirmPassword)}
             />
           </div>
-          <button type="submit" className="register-submit-btn">
-            Register
+          <button
+            type="submit"
+            className="register-submit-btn"
+            disabled={loading}
+          >
+            {loading ? "Loading..." : "Register"}
           </button>
         </form>
         <p className="register-note">Have an account?</p>

@@ -1,6 +1,15 @@
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&display=swap");
+
+body,
+.settings-page,
+.settings-form input,
+.update-btn {
+  font-family: "Open Sans", sans-serif;
+}
+
 /* Container for the settings page */
 .settings-page {
-  padding: 20px; 
+  padding: 20px;
   padding-top: 0;
   width: 35%;
 }
@@ -9,7 +18,7 @@
 .settings-page h1 {
   font-size: 24px;
   margin-bottom: 20px;
-  text-align: left; 
+  text-align: left;
 }
 
 /* Form group styling */
@@ -34,7 +43,7 @@
 /* Input styling */
 .input-wrapper input {
   width: 100%;
-  padding: 0.8rem 0.8rem 0.8rem 40px; 
+  padding: 0.8rem 0.8rem 0.8rem 40px;
   border: 1px solid #ccc;
   border-radius: 5px;
   box-sizing: border-box;
@@ -61,10 +70,10 @@
 .update-btn {
   width: 100%;
   padding: 10px;
-  background-color: rgba(23, 162, 184, 1); 
+  background-color: rgba(23, 162, 184, 1);
   color: white;
   border: none;
-  border-radius: 55px; 
+  border-radius: 55px;
   cursor: pointer;
   font-size: 16px;
   margin-top: 15px;

@@ -37,7 +37,7 @@ const Settings = () => {
   return (
     <div className="settings-page">
       <h1>Settings</h1>
-      <form onSubmit={handleUpdateProfile}>
+      <form className="settings-form" onSubmit={handleUpdateProfile}>
         <div className="form-group">
           
           <div className="input-wrapper">
