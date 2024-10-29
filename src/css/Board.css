@@ -1,7 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300;400;500;700&display=swap");
 
-
 /* Poppins font to the whole board */
 body,
 .board-container,
@@ -15,8 +14,9 @@ body,
 .task-actions button {
   font-family: "Poppins", sans-serif;
 }
-.okay-got-it-btn
-{font-family: "Noto Sans", sans-serif;}
+.okay-got-it-btn {
+  font-family: "Noto Sans", sans-serif;
+}
 
 /* Board container */
 .board-container {
@@ -88,6 +88,7 @@ body,
   position: absolute;
   top: 30px;
   right: 0;
+  z-index: 1;
   background-color: white;
   border: 1px solid #ccc;
   border-radius: 5px;
@@ -202,13 +203,13 @@ body,
   padding: 10px;
   margin-top: 20px;
 }
-.popup-actions .cancel-btn:hover{
+.popup-actions .cancel-btn:hover {
   background-color: rgba(207, 54, 54, 1);
   color: white;
   transition: 0.4s;
 }
 
-.okay-got-it-btn:hover{
+.okay-got-it-btn:hover {
   background: rgba(20, 140, 160, 1);
 }
 
@@ -564,7 +565,7 @@ body,
   padding: 10px 20px;
   border-radius: 5px;
   cursor: pointer;
-  width: 300px; 
+  width: 300px;
   font-size: 14px;
 }
 

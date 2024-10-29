@@ -527,6 +527,16 @@ const TaskCard = ({
     task.checklist.filter((item) => item.completed).length
   }/${task.checklist.length}`;
 
+  // Function to determine due date background color based on priority and due date
+  const getDueDateBackgroundColor = () => {
+    const today = new Date();
+    const dueDate = new Date(task.dueDate);
+    const isOverdue = dueDate < today;
+    return task.priority === "high" || isOverdue
+      ? "rgba(207, 54, 54, 1)"
+      : "rgba(219, 219, 219, 1)";
+  };
+
   // Function to handle checklist item toggle
   const toggleChecklistItem = async (taskId, index) => {
     try {
@@ -716,9 +726,14 @@ const TaskCard = ({
         )}
       </div>
 
-      {/* Conditionally render the due date only if it exists */}
-      {task.dueDate && (
-        <p className="task-due-date">
+       {/* Conditionally render the due date only if it exists */}
+       {task.dueDate && (
+        <p
+          className="task-due-date"
+          style={{
+            background: getDueDateBackgroundColor(),
+          }}
+        >
           {new Date(task.dueDate).toLocaleString("en-US", {
             month: "short",
             day: "numeric",
